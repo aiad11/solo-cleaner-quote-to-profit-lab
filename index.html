@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10223d">
+  <meta name="description" content="A practical companion calculator for Chapter 5 of The Solo Cleaner: Quote-to-Profit Workbook, by Evan Corvell.">
+  <title>Quote-to-Profit Lab | The Solo Cleaner</title>
+  <style>
+    :root{color-scheme:light;--ink:#12253d;--muted:#586980;--navy:#10223d;--blue:#276dd8;--blue-soft:#eaf2ff;--cream:#f6f8fc;--line:#dce4ef;--green:#13765e;--gold:#eaa82f;--red:#aa323b;--shadow:0 18px 44px rgba(24,44,74,.07)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);line-height:1.5}
+    button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #81aaff;outline-offset:2px}
+    .topbar{background:var(--navy);color:#fff}.topin{max-width:1160px;margin:auto;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:800;letter-spacing:.01em;font-size:15px}.brand span{display:block;color:#a5b8d3;font-weight:500;font-size:12px;letter-spacing:0;margin-top:2px}.top-note{color:#a9bed8;font-size:12px;text-align:right}
+    .hero{max-width:1160px;margin:auto;padding:38px 20px 26px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--blue)}h1{font-size:clamp(28px,4vw,43px);letter-spacing:-.037em;line-height:1.12;margin:9px 0 10px}.intro{color:var(--muted);max-width:650px;margin:0;font-size:15px}.hero-icon{width:100px;height:100px;border-radius:24px;background:#e6efff;display:grid;place-items:center}
+    .shell{max-width:1160px;margin:auto;padding:0 20px 32px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(310px,.85fr);gap:19px;align-items:start}.surface{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:19px;overflow:hidden}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);padding:10px;gap:6px;border-bottom:1px solid var(--line);background:#fff}.step{border:0;background:transparent;color:#60718a;border-radius:11px;min-height:52px;font-size:12px;font-weight:750;padding:9px 7px;transition:background .2s}.step b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#e9eef5;color:#506480;margin-right:5px}.step[aria-selected=true]{background:var(--blue-soft);color:#15498d}.step[aria-selected=true] b{background:var(--blue);color:white}
+    .panel{padding:24px}.panel[hidden]{display:none}.panel h2{font-size:22px;letter-spacing:-.02em;margin:0 0 7px}.subline{margin:0 0 24px;color:var(--muted);font-size:13px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:17px 15px}.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:720}.field small{color:var(--muted);font-size:12px}.field input[type=number]{border:1px solid #c9d5e5;border-radius:10px;padding:11px 12px;width:100%;background:#fff;color:var(--ink);min-height:44px}.field input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}.inlineval{display:flex;align-items:center;justify-content:space-between;gap:8px}.inlineval strong{font-size:16px;font-variant-numeric:tabular-nums;color:#2159a5}.callout{background:#f0f6ff;border:1px solid #dce9fd;padding:14px;border-radius:12px;font-size:13px;color:#324d70;margin-top:20px}.callout strong{color:#174277}.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.option{border:1px solid #cdd9e8;padding:12px;border-radius:12px;cursor:pointer;display:flex;gap:9px;align-items:start;font-size:13px}.option:has(input:checked){background:#eff5ff;border-color:#5d96e7}.option input{accent-color:var(--blue);margin-top:3px}.option strong{display:block}.option small{display:block;color:var(--muted);margin-top:4px;line-height:1.35}.checkrow{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:680;margin:20px 0 12px}.checkrow input{width:19px;height:19px;accent-color:var(--blue)}.fee-fields[hidden]{display:none}.footer-actions{padding:15px 24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}.btn{border:1px solid var(--line);border-radius:11px;padding:12px 15px;background:#fff;color:var(--ink);font-weight:760;font-size:13px;min-height:44px}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:disabled{opacity:.4;cursor:not-allowed}.btn:hover:not(:disabled){filter:brightness(.97)}
+    .results{position:sticky;top:15px}.result-pad{padding:25px}.result-head{display:flex;justify-content:space-between;align-items:start;gap:10px}.result-head .smalltitle{font-size:13px;font-weight:750;color:var(--muted)}.pill{background:#e8f3ee;color:#13765e;border-radius:50px;padding:6px 9px;font-size:11px;font-weight:800;white-space:nowrap}.big-price{font-size:clamp(39px,5vw,56px);letter-spacing:-.06em;font-weight:840;line-height:1.14;font-variant-numeric:tabular-nums;margin:6px 0 5px}.price-label{font-size:12px;color:var(--muted);margin:0}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}.metric{border:1px solid var(--line);background:#fbfcfe;border-radius:13px;padding:13px}.metric label{display:block;font-size:11px;color:var(--muted)}.metric strong{font-size:23px;letter-spacing:-.03em;display:block;font-variant-numeric:tabular-nums}.metric .tiny{font-size:11px;color:#6b7b8c}.breakdown{margin-top:23px}.breakdown h3{font-size:13px;margin:0 0 10px}.meter{height:16px;border-radius:50px;background:#e8edf3;overflow:hidden;display:flex}.meter span{height:100%;display:block;min-width:0}.legend{display:flex;flex-wrap:wrap;gap:9px 15px;margin:11px 0 0;color:var(--muted);font-size:11px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.insight{border-top:1px solid var(--line);margin-top:22px;padding-top:17px;font-size:13px;color:#334b66}.insight strong{display:block;color:var(--ink);margin-bottom:5px}.buttonrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}.buttonrow .btn{padding:11px 8px}.scenario{background:var(--navy);color:white;border-radius:14px;padding:17px;margin-top:20px}.scenario .label{color:#b7cae5;font-size:12px}.scenario .value{font-size:29px;font-weight:800;letter-spacing:-.03em;margin:3px 0}.scenario .helper{color:#c9d5e8;font-size:12px}.scenario.negative .value{color:#ffaaa8}.scenario.positive .value{color:#a0efd1}.legal{max-width:1160px;margin:0 auto;padding:0 20px 50px}.legal p{font-size:12px;color:#667589;max-width:1050px}.calcformula{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;background:#f5f7fc;border:1px solid var(--line);border-radius:10px;padding:13px;overflow-x:auto;white-space:nowrap;color:#355171}.hidden{display:none!important}
+    .closeout-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 10px;border-top:1px solid #44586e;padding-top:14px;margin-top:15px}.closeout-grid span{display:block;color:#c9d5e8;font-size:11px}.closeout-grid strong{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}.calcformula{white-space:normal;overflow-wrap:anywhere}.validation{background:#fff1f1;border:1px solid #e6b9b9;border-radius:10px;padding:10px;margin-top:15px;color:#9a2436;font-size:13px}.scenario{overflow-wrap:anywhere}.buttonrow{grid-template-columns:repeat(3,1fr)}
+    @media(max-width:860px){.shell{grid-template-columns:minmax(0,1fr)}.results{position:static}.hero{padding-top:28px}.hero-icon{width:78px;height:78px}.result-pad{padding:21px}.topin{padding:16px 20px}}
+    @media(max-width:500px){.hero{display:block}.hero-icon{display:none}.steps{gap:3px;padding:7px}.step{font-size:11px;min-height:50px;padding:7px 2px}.step b{display:block;margin:0 auto 4px;width:19px;height:19px}.panel{padding:19px}.fields{grid-template-columns:1fr 1fr;gap:16px 12px}.field.full-mobile{grid-column:1/-1}.option-grid{grid-template-columns:1fr}.footer-actions{padding:13px 19px}.top-note{font-size:10px}.big-price{font-size:48px}.buttonrow{grid-template-columns:1fr}.closeout-grid strong{font-size:16px}}
+    @media print{.topbar,.steps,.footer-actions,.buttonrow,.hero-icon,.legal{display:none!important}.shell{display:block}.panel,.result-pad{padding:8px}.surface{box-shadow:none;border:1px solid #bbb;margin-bottom:15px}.results{position:static}.panel[hidden]{display:none}.result-pad{break-inside:avoid}.scenario{color:black;background:white;border:1px solid #888}}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topin"><div class="brand">THE SOLO CLEANER <span>QUOTE-TO-PROFIT WORKBOOK · EVAN CORVELL</span></div><div class="top-note">CHAPTER 05 COMPANION<br>FREE INTERACTIVE READER TOOL</div></div></header>
+  <section class="hero"><div><div class="eyebrow">Learn by doing · Chapter 05</div><h1>Turn your costs<br>into a confident quote.</h1><p class="intro">Make a service estimate using your own assumptions, learn why margin differs from markup, and compare estimated job-level surplus with actual costs after the work is finished.</p></div><div class="hero-icon" aria-hidden="true"><svg width="63" height="63" viewBox="0 0 64 64" fill="none"><path d="M12 31 32 14l20 17v19a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V31Z" fill="#d7e7ff" stroke="#276dd8" stroke-width="3"/><path d="M21 38h22M21 46h14" stroke="#276dd8" stroke-width="3" stroke-linecap="round"/><circle cx="47" cy="19" r="10" fill="#eaa82f"/><path d="M43 19h8M47 15v8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div></section>
+  <main class="shell"><section class="surface" aria-label="Interactive pricing lesson">
+    <nav class="steps" role="tablist" aria-label="Lesson steps"><button class="step" id="tab-costs" role="tab" aria-controls="panel-costs" aria-selected="true" data-tab="costs"><b>1</b> Job costs</button><button class="step" id="tab-price" role="tab" aria-controls="panel-price" aria-selected="false" data-tab="price"><b>2</b> Quote math</button><button class="step" id="tab-whatif" role="tab" aria-controls="panel-whatif" aria-selected="false" data-tab="whatif"><b>3</b> Closeout</button></nav>
+    <div class="panel" id="panel-costs" role="tabpanel" aria-labelledby="tab-costs"><h2>Start with the real work.</h2><p class="subline">Include work-related hours and distinct costs without counting the same allowance twice.</p>
+      <div class="fields">
+        <div class="field full"><div class="inlineval"><label for="hours">Estimated working hours</label><strong id="hours-display">4.0 hours</strong></div><input id="hours" type="range" min="0.5" max="12" step="0.1" value="4" aria-describedby="hours-help"><small id="hours-help">Include job-attributable cleaning, preparation, travel time, and wrap-up consistently.</small></div>
+        <div class="field"><label for="rate">Owner-time allowance ($/hour)</label><input id="rate" type="number" min="0" max="10000" step="0.5" value="25"><small>A planning value, not take-home pay.</small></div>
+        <div class="field"><label for="supplies">Consumables ($)</label><input id="supplies" type="number" min="0" max="10000" step="0.5" value="8"><small>Supplies used for this job.</small></div>
+        <div class="field"><label for="travel">Distinct travel outlay ($)</label><input id="travel" type="number" min="0" max="10000" step="0.5" value="12"><small>Do not duplicate mileage or fuel.</small></div>
+        <div class="field"><label for="overhead">Overhead & other allowances ($)</label><input id="overhead" type="number" min="0" max="10000" step="0.5" value="20"><small>Costs not already counted above.</small></div>
+      </div><div class="callout"><strong>Why this matters</strong><br>Quoting from a customer's budget alone can hide your working time. First determine the resources the job will require.</div></div>
+    <div class="panel" id="panel-price" role="tabpanel" aria-labelledby="tab-price" hidden><h2>Margin is not markup.</h2><p class="subline">Select a pricing method and a target percentage. Watch the proposed quote change.</p>
+      <div class="option-grid" role="radiogroup" aria-label="Pricing method"><label class="option"><input type="radio" name="method" value="margin" checked><span><strong>Target surplus margin</strong><small>A percentage of the final selling price, after represented fees.</small></span></label><label class="option"><input type="radio" name="method" value="markup"><span><strong>Markup on cost</strong><small>A percentage added to estimated cost. Fees reduce the resulting surplus.</small></span></label></div>
+      <div class="field full" style="margin-top:23px"><div class="inlineval"><label for="target">Selected percentage</label><strong id="target-display">20%</strong></div><input id="target" type="range" min="0" max="60" step="1" value="20"></div>
+      <label class="checkrow"><input type="checkbox" id="use-fees"> Include a payment-processing fee</label>
+      <div class="fee-fields fields" id="fee-fields" hidden><div class="field"><label for="fee-percent">Percentage fee (%)</label><input id="fee-percent" type="number" min="0" max="30" step="0.1" value="2.9"></div><div class="field"><label for="fee-fixed">Fixed fee ($)</label><input id="fee-fixed" type="number" min="0" max="10000" step="0.01" value="0.30"></div></div>
+      <div class="callout"><strong>The lesson</strong><br>At $140 in costs, 20% markup yields $168, while 20% margin (before fees) requires $175. Neither guarantees customer acceptance. The fee example of 2.9% + $0.30 is fictional, not a provider rate.</div>
+    </div>
+    <div class="panel" id="panel-whatif" role="tabpanel" aria-labelledby="tab-whatif" hidden><h2>Close out the completed job.</h2><p class="subline">Compare your estimated quote with the completed job. The first example uses 5.2 hours, matching the book's $175 / $5 teaching case.</p>
+      <div class="fields">
+        <div class="field full"><div class="inlineval"><label for="actual-hours">Actual job-attributable hours</label><strong id="actual-hours-display">5.2 hours</strong></div><input id="actual-hours" type="range" min="0" max="30" step="0.1" value="5.2"><small>Include work-related time consistently with the estimate.</small></div>
+        <div class="field"><label for="actual-supplies">Actual consumables ($)</label><input id="actual-supplies" type="number" min="0" max="1000000" step="0.01" value="8"></div>
+        <div class="field"><label for="actual-travel">Actual travel outlay ($)</label><input id="actual-travel" type="number" min="0" max="1000000" step="0.01" value="12"></div>
+        <div class="field full-mobile"><label for="actual-overhead">Actual allocated overhead & other ($)</label><input id="actual-overhead" type="number" min="0" max="1000000" step="0.01" value="20"><small>Use nonduplicated items, following the same allowance policy as your estimate.</small></div>
+        <div class="field"><label for="approved-extras">Approved additional service charge ($)</label><input id="approved-extras" type="number" min="0" max="1000000" step="0.01" value="0"><small>Only customer-approved additions.</small></div>
+        <div class="field"><label for="discount">Agreed service discount ($)</label><input id="discount" type="number" min="0" max="1000000" step="0.01" value="0"><small>Service price adjustments before tax.</small></div>
+        <div class="field full-mobile"><label for="cash-collected">Cash collected so far ($)</label><input id="cash-collected" type="number" min="0" max="1000000" step="0.01" value="175"><small>Tracked separately: collecting cash is not the same as earning service revenue.</small></div>
+      </div>
+      <div class="callout"><strong>Scope change rule</strong><br>Agree with the customer before adding a charge. Never change an agreed price unilaterally. Fees in this model apply to earned pre-tax service revenue if enabled; confirm your provider's actual fee base.</div>
+    </div>
+    <div class="footer-actions"><button class="btn" id="back" type="button" disabled>← Previous</button><button class="btn primary" id="next" type="button">Next: Quote math →</button></div>
+  </section>
+  <aside class="results surface" aria-label="Live quote results"><div class="result-pad">
+    <div class="result-head"><span class="smalltitle">LIVE PRICING MODEL</span><span class="pill">USD · pre-tax</span></div><div class="big-price" id="quote-price" aria-live="polite">$175.00</div><p class="price-label">Proposed service price · not a guaranteed market rate</p>
+    <div class="metrics"><div class="metric"><label>Cost allowance</label><strong id="cost-value">$140.00</strong><span class="tiny">Includes value of owner time</span></div><div class="metric"><label>Planned surplus</label><strong id="surplus-value">$35.00</strong><span class="tiny">After modeled selling fees</span></div><div class="metric"><label>Actual planned margin</label><strong id="margin-value">20.0%</strong><span class="tiny">Surplus ÷ service price</span></div><div class="metric"><label>Modeled selling fees</label><strong id="fees-value">$0.00</strong><span class="tiny">With selected fee settings</span></div></div>
+    <div class="breakdown"><h3>Where the service price goes</h3><div class="meter" role="img" id="meter" aria-label="Proportions of the estimated price allocated to costs, fees, and surplus"><span id="meter-cost" style="width:80%;background:#467ecc"></span><span id="meter-fees" style="width:0%;background:#e7a93d"></span><span id="meter-surplus" style="width:20%;background:#23a183"></span></div><div class="legend"><span><i class="dot" style="background:#467ecc"></i>Cost allowances</span><span><i class="dot" style="background:#e7a93d"></i>Fees</span><span><i class="dot" style="background:#23a183"></i>Surplus</span></div></div>
+    <div class="insight"><strong id="formula-heading">Margin-based formula</strong><div class="calcformula" id="formula">$140.00 ÷ (1 − 0.20) = $175.00</div><div id="insight-text" style="margin-top:9px">Your owner-time allowance is already included in costs, so this is not your personal take-home pay.</div></div>
+    <div class="scenario" id="scenario"><div class="label">ACTUAL JOB-LEVEL OPERATING SURPLUS</div><div class="value" id="scenario-value">$5.00</div><div class="helper" id="scenario-detail">Earned service revenue $175.00; actual cost allowance $170.00</div>
+      <div class="closeout-grid"><div><span>Actual minus planned surplus</span><strong id="variance-value">−$30.00</strong></div><div><span>Actual surplus rate</span><strong id="actual-margin-value">2.9%</strong></div><div><span>Cash collected (separate)</span><strong id="cash-value">$175.00</strong></div><div><span>Earned service revenue</span><strong id="earned-value">$175.00</strong></div></div></div>
+    <div id="validation" role="status" aria-live="polite" class="validation" hidden></div>
+    <div class="buttonrow"><button class="btn" id="copy" type="button">Copy summary</button><button class="btn" id="export" type="button">Download CSV</button><button class="btn" id="reset" type="button">Restore example</button></div>
+  </div></aside></main>
+  <div class="legal"><p><strong>Reader note:</strong> This is an educational companion tool for Chapters 5 and 8 of <em>The Solo Cleaner: Quote-to-Profit Workbook</em> by Evan Corvell. Default figures are fictional learning examples from the book, not suggested market rates. “Job-level operating surplus after owner-time allowance” is a planning measure, not taxable income, accounting net income, cash collected, or owner take-home pay. The model assumes fee percentages apply to the pre-tax service price, rounds displayed percentage fees to cents, and omits many real-world complications. Validate your job scope, cost records, and fee contract before issuing a quote. Inputs stay in your browser; this page does not transmit information or store it on a server. This is not accounting, tax, legal, or pricing advice. Do not enter customer names or personal information.</p></div>
+  <script>
+    'use strict';
+    const $=id=>document.getElementById(id);
+    const money=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n):'—';
+    const pct=n=>Number.isFinite(n)?(n*100).toFixed(1)+'%':'—';
+    const ceilCent=n=>Math.ceil((n-0.000000001)*100)/100;
+    const cent=n=>Math.round((n+Number.EPSILON)*100)/100;
+    const numericIds=['hours','rate','supplies','travel','overhead','target','fee-percent','fee-fixed','actual-hours','actual-supplies','actual-travel','actual-overhead','approved-extras','discount','cash-collected'];
+    const read=id=>Number($(id).value);
+    const state={stage:'costs'};
+    const order=['costs','price','whatif'];
+    function compute(){
+      const hours=read('hours'),rate=read('rate'),supplies=read('supplies'),travel=read('travel'),overhead=read('overhead');
+      const target=read('target')/100,mode=document.querySelector('input[name="method"]:checked').value;
+      const active=$('use-fees').checked,feeRate=active?read('fee-percent')/100:0,feeFixed=active?read('fee-fixed'):0;
+      const timeAllowance=cent(hours*rate),cost=cent(timeAllowance+supplies+travel+overhead);
+      const denominator=1-target-feeRate;
+      const feasible=(mode==='markup'||denominator>0)&&numericIds.every(id=>{
+        const el=$(id);return el.value.trim()!==''&&el.validity.valid&&Number.isFinite(read(id))&&read(id)>=0;
+      });
+      const price=feasible?ceilCent(mode==='margin'?(cost+feeFixed)/denominator:cost*(1+target)):NaN;
+      const fees=feasible?cent(price*feeRate)+feeFixed:NaN;
+      const surplus=feasible?cent(price-cost-fees):NaN;
+      const actualHours=read('actual-hours'),actualSupplies=read('actual-supplies'),actualTravel=read('actual-travel'),actualOverhead=read('actual-overhead');
+      const extras=read('approved-extras'),discount=read('discount'),cash=read('cash-collected');
+      const grossEarned=feasible?cent(price+extras-discount):NaN;
+      const actualRevenue=feasible?Math.max(0,grossEarned):NaN;
+      const actualCost=cent(actualHours*rate+actualSupplies+actualTravel+actualOverhead);
+      const actualFees=feasible?cent(actualRevenue*feeRate)+feeFixed:NaN;
+      const actualSurplus=feasible?cent(actualRevenue-actualCost-actualFees):NaN;
+      const variance=feasible?cent(actualSurplus-surplus):NaN;
+      const problems=[];
+      if(!feasible)problems.push(mode==='margin'&&denominator<=0?'Target margin plus percentage fee must total less than 100%.':'All numeric fields must be nonnegative, within their limits, and complete.');
+      if(feasible&&discount>price+extras)problems.push('Agreed discount exceeds the service price including approved additions; earned service revenue is shown as $0.00.');
+      return {hours,rate,supplies,travel,overhead,target,mode,feeRate,feeFixed,timeAllowance,cost,price,fees,surplus,actualHours,actualSupplies,actualTravel,actualOverhead,extras,discount,cash,actualRevenue,actualCost,actualFees,actualSurplus,variance,feasible,denominator,problems};
+    }
+    function render(){
+      const s=compute();
+      $('hours-display').textContent=s.hours.toFixed(1)+' hours';$('target-display').textContent=(s.target*100).toFixed(0)+'%';
+      $('actual-hours-display').textContent=s.actualHours.toFixed(1)+' hours';
+      $('fee-fields').hidden=!$('use-fees').checked;
+      $('quote-price').textContent=s.feasible?money(s.price):'Review inputs';
+      $('cost-value').textContent=money(s.cost);$('surplus-value').textContent=money(s.surplus);
+      $('fees-value').textContent=money(s.fees);$('margin-value').textContent=s.feasible&&s.price>0?pct(s.surplus/s.price):'—';
+      $('surplus-value').style.color=s.surplus<0?'#aa323b':'';
+      $('formula-heading').textContent=s.mode==='margin'?'Target surplus margin formula':'Markup formula';
+      $('formula').textContent=!s.feasible?'Enter valid numbers to calculate.':s.mode==='margin'?`(${money(s.cost)} + ${money(s.feeFixed)}) ÷ (1 − ${(s.target*100).toFixed(0)}% − ${(s.feeRate*100).toFixed(1)}%) = ${money(s.price)}`:`${money(s.cost)} × (1 + ${(s.target*100).toFixed(0)}%) = ${money(s.price)}`;
+      $('insight-text').textContent=s.mode==='margin'?'Target margin means surplus divided by service price, after included fees. Owner time is already counted in costs.':'Markup is a percent of cost, not selling price. Included fees reduce the resulting surplus.';
+      const base=Math.max(s.price||0,(s.cost+(s.fees||0)),1);
+      $('meter-cost').style.width=Math.min(100,Math.max(0,s.cost/base*100))+'%';
+      $('meter-fees').style.width=Math.min(100,Math.max(0,(s.fees||0)/base*100))+'%';
+      $('meter-surplus').style.width=Math.min(100,Math.max(0,(s.surplus||0)/base*100))+'%';
+      $('meter').setAttribute('aria-label',`Cost allowances ${money(s.cost)}, selling fees ${money(s.fees)}, planned operating surplus ${money(s.surplus)}`);
+      $('scenario-value').textContent=money(s.actualSurplus);
+      $('scenario-detail').textContent=`Actual cost allowances: ${money(s.actualCost)} · Actual modeled fees: ${money(s.actualFees)}`;
+      $('variance-value').textContent=money(s.variance);
+      $('actual-margin-value').textContent=s.actualRevenue>0?pct(s.actualSurplus/s.actualRevenue):'—';
+      $('cash-value').textContent=money(s.cash);
+      $('earned-value').textContent=money(s.actualRevenue);
+      $('scenario').classList.toggle('negative',s.actualSurplus<0);$('scenario').classList.toggle('positive',s.actualSurplus>=0);
+      $('validation').hidden=s.problems.length===0;
+      $('validation').textContent=s.problems.join(' ');
+      $('copy').disabled=!s.feasible;$('export').disabled=!s.feasible;
+    }
+    function showStage(stage){
+      state.stage=stage;
+      for(const st of order){$('panel-'+st).hidden=st!==stage;const tab=$('tab-'+st);tab.setAttribute('aria-selected',String(st===stage));tab.tabIndex=st===stage?0:-1;}
+      const i=order.indexOf(stage);$('back').disabled=i===0;
+      $('next').textContent=i===2?'Restart lesson ↻':i===0?'Next: Quote math →':'Next: Job closeout →';
+    }
+    document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>showStage(button.dataset.tab)));
+    $('back').addEventListener('click',()=>showStage(order[Math.max(0,order.indexOf(state.stage)-1)]));
+    $('next').addEventListener('click',()=>showStage(order[(order.indexOf(state.stage)+1)%3]));
+    document.querySelectorAll('input').forEach(input=>{input.addEventListener('input',render);input.addEventListener('change',render)});
+    $('reset').addEventListener('click',()=>{
+      const sample={hours:4,rate:25,supplies:8,travel:12,overhead:20,target:20,'fee-percent':2.9,'fee-fixed':0.30,'actual-hours':5.2,'actual-supplies':8,'actual-travel':12,'actual-overhead':20,'approved-extras':0,discount:0,'cash-collected':175};
+      for(const [id,value] of Object.entries(sample))$(id).value=value;
+      $('use-fees').checked=false;document.querySelector('input[value="margin"]').checked=true;showStage('costs');render();
+    });
+    function summaryData(s){return [
+      ['Plan: estimated working hours',s.hours],['Owner-time allowance/hour',s.rate],['Planned consumables',s.supplies],['Planned travel outlay',s.travel],['Planned overhead & other allowances',s.overhead],['Planned total cost allowance',s.cost],['Pricing method',s.mode],['Target percentage',s.target*100],['Proposed price (pre-tax)',s.price],['Planned fees',s.fees],['Planned job-level operating surplus',s.surplus],['Actual working hours',s.actualHours],['Actual consumables',s.actualSupplies],['Actual travel outlay',s.actualTravel],['Actual overhead & other allowances',s.actualOverhead],['Customer-approved extra service charge',s.extras],['Agreed discount',s.discount],['Earned pre-tax service revenue',s.actualRevenue],['Actual cost allowance',s.actualCost],['Modeled actual fees',s.actualFees],['Actual job-level operating surplus',s.actualSurplus],['Surplus variance (actual minus plan)',s.variance],['Cash collected separately',s.cash],['Caution','Operating surplus is not accounting net income, cash profit, or owner take-home pay.']
+    ];}
+    $('copy').addEventListener('click',async()=>{
+      const s=compute();if(!s.feasible)return;
+      const summary='THE SOLO CLEANER — QUOTE-TO-PROFIT LAB\n'+summaryData(s).map(([k,v])=>`${k}: ${v}`).join('\n');
+      try{await navigator.clipboard.writeText(summary);$('copy').textContent='Copied ✓';}catch(e){const area=document.createElement('textarea');area.value=summary;area.style.cssText='position:fixed;left:-9999px';document.body.appendChild(area);area.select();try{document.execCommand('copy');$('copy').textContent='Copied ✓';}catch(_){$('copy').textContent='Copy blocked';}area.remove();}
+      setTimeout(()=>$('copy').textContent='Copy summary',1800);
+    });
+    $('export').addEventListener('click',()=>{
+      const s=compute();if(!s.feasible)return;
+      const rows=[['Metric','Value'],...summaryData(s)].map(line=>line.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');
+      const blob=new Blob(['\uFEFF'+rows],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download='solo_cleaner_quote_closeout.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
+    });
+    showStage('costs');render();
+    window.quoteLab={compute,render,showStage};
+  </script>
+</body>
+</html>
